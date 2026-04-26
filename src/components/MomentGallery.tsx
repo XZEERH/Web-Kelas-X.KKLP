@@ -1,54 +1,49 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, X } from 'lucide-react';
 
 const MomentGallery = () => {
-  const [selectedImg, setSelectedImg] = useState<string | null>(null);
-  const photos = Array.from({ length: 8 }, (_, i) => `https://picsum.photos/seed/${i + 50}/800/600`);
+  const [selected, setSelected] = useState<string | null>(null);
+  const images = Array.from({ length: 8 }, (_, i) => `https://picsum.photos/seed/moment${i}/800/600`);
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
-      <h2 className="text-4xl font-black italic mb-12 text-center uppercase tracking-tight">Moment Gallery</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        {photos.map((src, i) => (
-          <motion.div
-            key={i}
-            whileHover={{ scale: 1.02 }}
-            className="relative aspect-video bg-slate-200 rounded-xl overflow-hidden cursor-pointer group"
-            onClick={() => setSelectedImg(src)}
-          >
-            <img src={src} className="w-full h-full object-cover" alt="Moment" />
-            <div className="absolute top-2 right-2 text-yellow-400">
-              <Star size={20} fill="currentColor" />
-            </div>
-          </motion.div>
-        ))}
+    <section id="moment" className="py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-6 text-center">
+        <h2 className="text-4xl font-black italic mb-12 uppercase">Moment Gallery</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+          {images.map((img, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ scale: 1.02 }}
+              onClick={() => setSelected(img)}
+              className="relative aspect-square cursor-pointer group overflow-hidden rounded-3xl"
+            >
+              <img src={img} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" alt="moment" />
+              <div className="absolute top-4 right-4 text-yellow-400 bg-black/20 p-1 rounded-full">
+                <Star size={18} fill="currentColor" />
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
 
       <AnimatePresence>
-        {selectedImg && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm"
+        {selected && (
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[200] bg-black/95 flex items-center justify-center p-6"
+            onClick={() => setSelected(null)}
           >
-            <button 
-              className="absolute top-10 right-10 text-white"
-              onClick={() => setSelectedImg(null)}
-            >
-              <X size={40} />
-            </button>
+            <button className="absolute top-8 right-8 text-white"><X size={40}/></button>
             <motion.img 
-              initial={{ scale: 0.8 }}
-              animate={{ scale: 1 }}
-              src={selectedImg} 
-              className="max-w-full max-h-[80vh] rounded-lg shadow-2xl"
+              initial={{ scale: 0.9 }} animate={{ scale: 1 }}
+              src={selected} className="max-w-full max-h-full rounded-xl" 
             />
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </section>
   );
 };
+
 export default MomentGallery;
