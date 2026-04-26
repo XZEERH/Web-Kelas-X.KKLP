@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    /* Memberikan jarak agar tidak tertutup navbar saat scroll */
+    scroll-padding-top: 5rem; 
+  }
   body { @apply bg-[#f4f4f5] text-slate-900 overflow-x-hidden; }
 }
 
@@ -14,8 +18,7 @@
 
 .hero-stars::after {
   content: "";
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-image: radial-gradient(white 1px, transparent 1px);
   background-size: 40px 40px;
   opacity: 0.1;
