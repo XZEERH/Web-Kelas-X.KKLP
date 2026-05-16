@@ -7,14 +7,14 @@ const MomentGallery = () => {
 
   // DAFTAR GAMBAR GALLERY (Bisa Anda tambah/ubah sesuai file di assets/gallery/)
   const images = [
-    "assets/gallery/contoh-moment1.jpg",
-    "assets/gallery/contoh-moment2.jpg",
-    "assets/gallery/contoh-moment3.jpg",
-    "assets/gallery/contoh-moment4.jpg",
-    "assets/gallery/contoh-moment5.jpg",
-    "assets/gallery/contoh-moment6.jpg",
-    "assets/gallery/contoh-moment7.jpg",
-    "assets/gallery/contoh-moment8.jpg",
+    "assets/gallery/moment1.jpg",
+    "assets/gallery/moment2.jpg",
+    "assets/gallery/moment3.jpg",
+    "assets/gallery/moment4.jpg",
+    "assets/gallery/moment5.jpg",
+    "assets/gallery/moment6.jpg",
+    "assets/gallery/moment7.jpg",
+    "assets/gallery/moment8.jpg",
   ];
 
   return (
