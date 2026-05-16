@@ -1,10 +1,10 @@
 const JadwalPiket = () => {
   const data = [
-    { hari: 'Senin', anggota: ['Andi', 'Budi', 'Caca', 'Dedi'] },
-    { hari: 'Selasa', anggota: ['Euis', 'Fafa', 'Gigi', 'Haha'] },
-    { hari: 'Rabu', anggota: ['Iwan', 'Jaja', 'Kiki', 'Lala'] },
-    { hari: 'Kamis', anggota: ['Mumu', 'Nana', 'Opi', 'Pupu'] },
-    { hari: 'Jumat', anggota: ['Rere', 'Sisi', 'Tata', 'Uu'] },
+    { hari: 'Senin', anggota: ['Andi', 'Andika', 'Candra', 'choky', 'ciko', 'Galih'] },
+    { hari: 'Selasa', anggota: ['Karel', 'Iqbal Ali', 'Reynaldi', 'Riski', 'Fadil', 'Fajar'] },
+    { hari: 'Rabu', anggota: ['Jamal', 'Melvin', 'Miko', 'Ryan', 'Aidil', 'M.Iqbal', 'Hani'] },
+    { hari: 'Kamis', anggota: ['Riski', 'Ridho', 'Rais', 'Mahesa', 'Rafi', 'Baim'] },
+    { hari: 'Jumat', anggota: ['Odi', 'Rama', 'Rio', 'Tya', 'Sakti', 'Galuh', 'Rehan'] },
   ];
 
   return (
