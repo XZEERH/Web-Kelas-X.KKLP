@@ -1,106 +1,81 @@
-import { useState, useRef, useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { UserCircle2, Zap } from 'lucide-react';
+import { useState, useRef } from 'react';
+import { motion } from 'framer-motion';
+import { UserCircle2 } from 'lucide-react';
 
 const AnggotaInteraktif = () => {
   const [isScattered, setIsScattered] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const controls = useAnimation();
   
-  const anggota = Array.from({ length: 35 }, (_, i) => ({
+  // EDIT NAMA SISWA DI SINI
+  const daftarNama = [
+    "Nama Siswa 1", "Nama Siswa 2", "Nama Siswa 3", "Nama Siswa 4",
+    "Nama Siswa 5", "Nama Siswa 6", "Nama Siswa 7", "Nama Siswa 8",
+    "Nama Siswa 9", "Nama Siswa 10", "Nama Siswa 11", "Nama Siswa 12",
+    "Nama Siswa 13", "Nama Siswa 14", "Nama Siswa 15", "Nama Siswa 16",
+    "Nama Siswa 17", "Nama Siswa 18", "Nama Siswa 19", "Nama Siswa 20",
+    "Nama Siswa 21", "Nama Siswa 22", "Nama Siswa 23", "Nama Siswa 24",
+    "Nama Siswa 25", "Nama Siswa 26", "Nama Siswa 27", "Nama Siswa 28",
+    "Nama Siswa 29", "Nama Siswa 30", "Nama Siswa 31", "Nama Siswa 32",
+    "Nama Siswa 33", "Nama Siswa 34", "Nama Siswa 35"
+  ];
+
+  const anggota = daftarNama.map((nama, i) => ({
     id: i,
-    nama: `Siswa ${i + 1}`,
+    nama: nama,
     absen: i + 1 < 10 ? `0${i + 1}` : i + 1
   }));
 
-  // Fungsi Guncang (Shake Effect)
-  const shakeCards = async () => {
-    await controls.start({
-      x: [0, -20, 20, -20, 20, 0],
-      transition: { duration: 0.4 }
-    });
-  };
-
-  // Sensor Goyang (Accelerometer) untuk HP
-  useEffect(() => {
-    const handleMotion = (e: DeviceMotionEvent) => {
-      const acc = e.accelerationIncludingGravity;
-      if (acc && (Math.abs(acc.x || 0) > 15 || Math.abs(acc.y || 0) > 15)) {
-        if (isScattered) shakeCards();
-      }
-    };
-
-    if (window.DeviceMotionEvent) {
-      window.addEventListener('devicemotion', handleMotion);
-    }
-    return () => window.removeEventListener('devicemotion', handleMotion);
-  }, [isScattered]);
-
   return (
-    <section id="anggota" className="py-24 bg-zinc-200 overflow-hidden min-h-screen">
+    <section id="anggota" className="py-24 bg-zinc-100 min-h-screen">
       <div className="max-w-7xl mx-auto px-6 text-center mb-12">
         <h2 className="text-4xl font-black italic uppercase">Daftar Anggota</h2>
-        <p className="text-slate-500 italic mt-2">Klik kartu & Goyangkan HP untuk mengacaukan!</p>
-        
-        {isScattered && (
-          <button 
-            onClick={shakeCards}
-            className="mt-4 bg-yellow-400 text-black px-4 py-2 rounded-full font-black flex items-center gap-2 mx-auto shadow-lg active:scale-95"
-          >
-            <Zap size={16} fill="black" /> GUNCANG MANUAL
-          </button>
-        )}
+        <p className="text-slate-500 italic mt-2">Klik salah satu kartu identitas untuk menghancurkan formasi!</p>
       </div>
 
-      {/* Container "Kandang" (Cage) */}
+      {/* Kandang / Container - Diberi min-height agar layar tidak mental saat absolute */}
       <div 
         ref={containerRef}
-        className="max-w-6xl mx-auto px-4 min-h-[600px] bg-white/30 rounded-[3rem] border-4 border-dashed border-white/50 relative p-8"
+        className="max-w-6xl mx-auto px-4 min-h-[800px] bg-white/50 rounded-[3rem] border-4 border-dashed border-slate-300 relative p-10 overflow-hidden"
       >
-        <div className={`grid grid-cols-2 md:grid-cols-5 lg:grid-cols-7 gap-4 ${isScattered ? 'block' : 'grid'}`}>
+        <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-6 ${isScattered ? 'block' : 'grid'}`}>
           {anggota.map((person) => (
             <motion.div
               key={person.id}
               layout
               drag={isScattered}
-              // Ini yang mengurung kartu agar tidak keluar dari containerRef
               dragConstraints={containerRef}
-              dragElastic={0.2}
-              animate={controls}
-              onDragStart={() => setIsScattered(true)}
               onClick={() => setIsScattered(true)}
               initial={false}
+              animate={isScattered ? { 
+                x: Math.random() * 300 - 150, 
+                y: Math.random() * 500 + 50, 
+                rotate: Math.random() * 90 - 45 
+              } : { x: 0, y: 0, rotate: 0 }}
               className={`
-                p-4 bg-white rounded-2xl shadow-xl border border-slate-200 cursor-grab active:cursor-grabbing select-none
-                ${isScattered ? 'absolute z-10 w-36' : 'relative'}
+                p-6 bg-white rounded-2xl shadow-lg border border-slate-200 cursor-grab active:cursor-grabbing select-none
+                ${isScattered ? 'absolute z-10 w-40' : 'relative'}
               `}
-              style={isScattered ? {
-                left: `${Math.random() * 60 + 10}%`,
-                top: `${Math.random() * 60 + 10}%`,
-              } : {}}
             >
               <div className="flex flex-col items-center text-center">
-                <UserCircle2 size={40} className="text-blue-500 mb-2" />
-                <div className="text-[10px] font-black text-slate-400">ABSEN {person.absen}</div>
-                <div className="font-bold text-xs uppercase italic truncate w-full">{person.nama}</div>
-              </div>
-              
-              {/* Dekorasi Card */}
-              <div className="mt-3 h-1 w-full bg-slate-100 rounded-full overflow-hidden">
-                <div className="h-full bg-blue-500 w-2/3"></div>
+                <UserCircle2 size={48} className="text-blue-500 mb-3" />
+                <div className="text-xs font-black text-slate-400">ABSEN {person.absen}</div>
+                <div className="font-bold text-sm uppercase italic leading-tight">{person.nama}</div>
               </div>
             </motion.div>
           ))}
         </div>
       </div>
 
+      {/* Tombol Reset - Sekarang statis di bawah kandang, tidak ngikutin kamera */}
       {isScattered && (
-        <button 
-          onClick={() => window.location.reload()}
-          className="fixed bottom-10 right-10 z-[120] bg-black text-white px-8 py-4 rounded-full font-black shadow-2xl hover:bg-blue-600 transition-colors"
-        >
-          RESET POSISI
-        </button>
+        <div className="flex justify-center mt-12">
+          <button 
+            onClick={() => window.location.reload()}
+            className="bg-black text-white px-12 py-4 rounded-full font-black shadow-xl hover:bg-blue-600 transition-all active:scale-95"
+          >
+            RESET POSISI
+          </button>
+        </div>
       )}
     </section>
   );
